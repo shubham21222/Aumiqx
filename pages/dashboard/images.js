@@ -1,4 +1,4 @@
-import DashboardLayout from '@/components/DashboardLayout';
+import DashboardLayout from "@/app/admin/components/DashboardLayout";
 
 const Images = () => {
   return (
