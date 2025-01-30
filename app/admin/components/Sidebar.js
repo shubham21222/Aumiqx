@@ -1,14 +1,15 @@
-import React from 'react';
-import Link from 'next/link';
-import '../../global.css'
-
+import React from "react";
+import Link from "next/link";
+import "../../global.css";
 
 const Sidebar = () => {
   const menuItems = [
-    { name: 'Content', path: '/dashboard/content' },
-    { name: 'Images', path: '/dashboard/images' },
-    {name:'HeroSection',path:'/dashboard/HeroContentManager'},
-    {name:'Design Solution Cards',path:'/dashboard/DesignSolutionCards'},
+    { name: "Content", path: "/dashboard/content" },
+    { name: "Images", path: "/dashboard/images" },
+    { name: "HeroSection", path: "/dashboard/HeroContentManager" },
+    { name: "Design Solution Cards", path: "/dashboard/DesignSolutionCards" },
+    { name: "Projects Card", path: "/dashboard/ProjectsManager" },
+    { name: "Testimonial", path: "/dashboard/Testimonail" },
   ];
 
   return (
@@ -17,8 +18,11 @@ const Sidebar = () => {
       <ul>
         {menuItems.map((item) => (
           <li key={item.name}>
-            <Link href={item.path}
-               className="block px-4 py-2 hover:bg-gray-700">{item.name}
+            <Link
+              href={item.path}
+              className="block px-4 py-2 hover:bg-gray-700"
+            >
+              {item.name}
             </Link>
           </li>
         ))}

@@ -2,6 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const serviceRoutes = require("./routes/serviceRoutes");
+const projectRoutes = require("./routes/projectRoutes");
+const testimonialRoutes = require("./routes/testimonialRoutes");
+
 
 require('dotenv').config();
 
@@ -18,6 +21,8 @@ const heroContentRoutes = require('./routes/content');
 app.use('/api/auth', authRoutes);
 app.use('/api', heroContentRoutes); // Register the hero content route
 app.use("/api/services", serviceRoutes);
+app.use("/api/projects", projectRoutes);
+app.use("/api/testimonials", testimonialRoutes);
 
 
 // MongoDB Connection

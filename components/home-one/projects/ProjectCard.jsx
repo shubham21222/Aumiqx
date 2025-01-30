@@ -1,10 +1,29 @@
 import Image from "next/image";
 import Link from "next/link";
+
 function ProjectCard({ project: { title, description, img } }) {
+	// Check if img is a URL or a local import
+	const isRemoteImage = typeof img === "string" && img.startsWith("http");
+
 	return (
 		<div className="swiper-slide">
 			<div className="aximo-project-thumb">
-				<Image src={img} alt={title} sizes="100vw" />
+				{isRemoteImage ? (
+					<Image 
+						src={img} 
+						alt={title} 
+						width={500} // Adjust as needed
+						height={300} 
+						objectFit="cover"
+					/>
+				) : (
+					<Image 
+						src={img} 
+						alt={title} 
+						layout="intrinsic"
+					/>
+				)}
+				
 				<div className="aximo-project-wrap">
 					<div className="aximo-project-data">
 						<Link href="/single-portfolio">

@@ -1,10 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-
-    images: {
-        domains: ['www.thespruce.com'], // Add other domains if needed
-      }
-
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**", // Allows all external image domains
+      },
+    ],
+  },
 };
 
 export default nextConfig;
