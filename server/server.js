@@ -4,7 +4,9 @@ const mongoose = require('mongoose');
 const serviceRoutes = require("./routes/serviceRoutes");
 const projectRoutes = require("./routes/projectRoutes");
 const testimonialRoutes = require("./routes/testimonialRoutes");
-
+const teamRoutes = require("./routes/teamRoutes");
+const skillProgressRoutes = require("./routes/skillProgressRoutes");
+const blogRoutes = require("./routes/blogRoutes");
 
 require('dotenv').config();
 
@@ -23,7 +25,9 @@ app.use('/api', heroContentRoutes); // Register the hero content route
 app.use("/api/services", serviceRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/testimonials", testimonialRoutes);
-
+app.use("/api/teams", teamRoutes);
+app.use("/api/skills", skillProgressRoutes);
+app.use("/api/blogs", blogRoutes);
 
 // MongoDB Connection
 mongoose
@@ -33,4 +37,4 @@ mongoose
 
 // Start the server
 const PORT = 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, '0.0.0.0', () => console.log(`Server running on port ${PORT}`));

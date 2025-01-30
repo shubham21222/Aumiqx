@@ -2,16 +2,21 @@
 import { useEffect, useState } from "react";
 import DashboardLayout from "@/app/admin/components/DashboardLayout";
 
-const ProjectsManager = () => {
-    const [projects, setProjects] = useState([]);
-    const [formData, setFormData] = useState({ title: "", description: "", img: "" });
+const BlogManager = () => {
+    const [blogs, setBlogs] = useState([]);
+    const [formData, setFormData] = useState({ 
+        title: "", 
+        content: "", 
+        author: "", 
+        coverImage: "" 
+    });
     const [editId, setEditId] = useState(null);
 
-    // Fetch projects
+    // Fetch blogs
     useEffect(() => {
-        fetch("http://localhost:5000/api/projects")
+        fetch("http://localhost:5000/api/blogs")
             .then((res) => res.json())
-            .then((data) => setProjects(data))
+            .then((data) => setBlogs(data))
             .catch((err) => console.error(err));
     }, []);
 
@@ -20,11 +25,13 @@ const ProjectsManager = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    // Add or update project
+    // Add or update blog
     const handleSubmit = async (e) => {
         e.preventDefault();
         const method = editId ? "PUT" : "POST";
-        const url = editId ? `http://localhost:5000/api/projects/${editId}` : "http://localhost:5000/api/projects";
+        const url = editId 
+            ? `http://localhost:5000/api/blogs/${editId}` 
+            : "http://localhost:5000/api/blogs";
 
         const response = await fetch(url, {
             method,
@@ -32,61 +39,75 @@ const ProjectsManager = () => {
             body: JSON.stringify(formData),
         });
 
-        const newProject = await response.json();
+        const newBlog = await response.json();
 
         if (editId) {
-            setProjects(projects.map((p) => (p._id === editId ? newProject : p)));
+            setBlogs(blogs.map((b) => (b._id === editId ? newBlog : b)));
         } else {
-            setProjects([...projects, newProject]);
+            setBlogs([...blogs, newBlog]);
         }
 
-        setFormData({ title: "", description: "", img: "" });
+        setFormData({ title: "", content: "", author: "", coverImage: "" });
         setEditId(null);
     };
 
-    // Delete project
+    // Delete blog
     const handleDelete = async (id) => {
-        await fetch(`http://localhost:5000/api/projects/${id}`, { method: "DELETE" });
-        setProjects(projects.filter((p) => p._id !== id));
+        await fetch(`http://localhost:5000/api/blogs/${id}`, { method: "DELETE" });
+        setBlogs(blogs.filter((b) => b._id !== id));
     };
 
-    // Set project for editing
-    const handleEdit = (project) => {
-        setFormData({ title: project.title, description: project.description, img: project.img });
-        setEditId(project._id);
+    // Set blog for editing
+    const handleEdit = (blog) => {
+        setFormData({ 
+            title: blog.title, 
+            content: blog.content, 
+            author: blog.author, 
+            coverImage: blog.coverImage 
+        });
+        setEditId(blog._id);
     };
 
     return (
         <DashboardLayout>
             <div className="p-8 bg-gray-50 min-h-screen">
-                <h2 className="text-2xl font-bold text-gray-800 mb-6">Manage Projects</h2>
+                <h2 className="text-2xl font-bold text-gray-800 mb-6">Manage Blog Posts</h2>
 
-                {/* Form for Adding/Editing Projects */}
+                {/* Form for Adding/Editing Blogs */}
                 <form onSubmit={handleSubmit} className="mb-8 bg-white p-6 rounded-lg shadow-md">
                     <div className="space-y-4">
                         <input
                             type="text"
                             name="title"
-                            placeholder="Title"
+                            placeholder="Blog Title"
                             value={formData.title}
                             onChange={handleChange}
                             required
                             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
+                        <textarea
+                            name="content"
+                            placeholder="Blog Content"
+                            value={formData.content}
+                            onChange={handleChange}
+                            required
+                            rows="6"
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
                         <input
                             type="text"
-                            name="description"
-                            placeholder="Description"
-                            value={formData.description}
+                            name="author"
+                            placeholder="Author Name"
+                            value={formData.author}
                             onChange={handleChange}
                             required
                             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                         <input
                             type="text"
-                            name="img"
-                            placeholder="Image URL"
-                            value={formData.img}
+                            name="coverImage"
+                            placeholder="Cover Image URL"
+                            value={formData.coverImage}
                             onChange={handleChange}
                             required
                             className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -95,31 +116,32 @@ const ProjectsManager = () => {
                             type="submit"
                             className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition duration-300"
                         >
-                            {editId ? "Update Project" : "Add Project"}
+                            {editId ? "Update Blog Post" : "Add Blog Post"}
                         </button>
                     </div>
                 </form>
 
-                {/* Display Projects */}
+                {/* Display Blogs */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {projects.map((project) => (
-                        <div key={project._id} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                    {blogs.map((blog) => (
+                        <div key={blog._id} className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
                             <img
-                                src={project.img}
-                                alt={project.title}
+                                src={blog.coverImage}
+                                alt={blog.title}
                                 className="w-full h-48 object-cover rounded-lg mb-4"
                             />
-                            <h3 className="text-xl font-semibold text-gray-800 mb-2">{project.title}</h3>
-                            <p className="text-gray-600 mb-4">{project.description}</p>
+                            <h3 className="text-xl font-semibold text-gray-800 mb-2">{blog.title}</h3>
+                            <p className="text-gray-600 mb-2">By {blog.author}</p>
+                            <p className="text-gray-600 mb-4 line-clamp-3">{blog.content}</p>
                             <div className="flex justify-center space-x-3">
                                 <button
-                                    onClick={() => handleEdit(project)}
+                                    onClick={() => handleEdit(blog)}
                                     className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition duration-300"
                                 >
                                     Edit
                                 </button>
                                 <button
-                                    onClick={() => handleDelete(project._id)}
+                                    onClick={() => handleDelete(blog._id)}
                                     className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300"
                                 >
                                     Delete
@@ -133,4 +155,4 @@ const ProjectsManager = () => {
     );
 };
 
-export default ProjectsManager;
+export default BlogManager;
