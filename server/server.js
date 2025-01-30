@@ -19,7 +19,8 @@ app.use(express.json());
 // Routes
 const authRoutes = require('./routes/auth');
 const heroContentRoutes = require('./routes/content');
-
+const uploadRoutes = require('./routes/uploadRoutes');
+app.use('/api/upload', uploadRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api', heroContentRoutes); // Register the hero content route
 app.use("/api/services", serviceRoutes);
