@@ -14,9 +14,6 @@
      1.4 themes css
 
 **/
-
-@import "tailwindcss";
-
 :root {
 	--heading-color: #000;
 	--heading-color2: #1b1b1b;

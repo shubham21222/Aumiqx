@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import FadeInUp from "@/components/animation/FadeInUp";
 import Image from "next/image";
-import Blog3Img from "../../../public/images/blog/blog3.png";
+// import Blog3Img from "../../../../public/images/blog/blog-3.jpg";
 import CommentForm from "@/components/blog/single-blog/CommentForm";
 import CommentList from "@/components/blog/single-blog/CommentList";
 import PostMeta from "@/components/blog/single-blog/PostMeta";
@@ -15,10 +15,10 @@ import Tags from "@/components/blog/Tags";
 import BreadCrumb from "@/components/common/Breadcrumb";
 import Header from "@/components/home-one/header";
 import Footer from "@/components/home-one/footer";
-import "../../../public/css/fontawesome.css";
-import "../../../public/css/mobile-nav.css";
-import "../../../public/css/app.css";
-import "../../../public/css/main.css";
+import "../../../../public/css/fontawesome.css";
+import "../../../../public/css/mobile-nav.css";
+import "../../../../public/css/app.css";
+import "../../../../public/css/main.css";
 
 function BlogDetails() {
     const params = useParams();
@@ -65,7 +65,7 @@ function BlogDetails() {
             <>
                 <FadeInUp className="post-thumbnail">
                     <Image
-                        src={blog.coverImage || Blog3Img}
+                        src={blog.coverImage || ""}
                         alt={blog.title || "Blog image"}
                         sizes="100vw"
                         onError={(e) => {

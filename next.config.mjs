@@ -7,6 +7,10 @@ const nextConfig = {
         hostname: "**", // Allows all external image domains
       },
     ],
+  }, 
+  webpack(config) {
+    config.optimization.minimize = false;
+    return config;
   },
 };
 
