@@ -1,5 +1,4 @@
 // components/blog/SingleBlog.js
-'use client';
 import Categories from '../Categories';
 import RecentPosts from '../RecentPosts';
 import Search from '../Search';
