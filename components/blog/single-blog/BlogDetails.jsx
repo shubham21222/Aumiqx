@@ -1,6 +1,5 @@
-"use client";
+'use client'
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
 import FadeInUp from "@/components/animation/FadeInUp";
 import Image from "next/image";
 import Blog3Img from "../../../public/images/blog/blog3.png";
@@ -9,84 +8,65 @@ import CommentList from "./CommentList";
 import PostMeta from "./PostMeta";
 import PostTags from "./PostTags";
 
-function BlogDetails() {
-    const { id } = useParams();
+function BlogDetails({ blogId }) {
     const [blog, setBlog] = useState(null);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchBlogDetails = async () => {
+        const fetchBlog = async () => {
             try {
-                const response = await fetch(`http://localhost:5000/api/blogs/${id}`);
+                const response = await fetch(`/api/blogs/${blogId}`);
                 if (!response.ok) {
-                    throw new Error('Failed to fetch blog details');
+                    throw new Error("Failed to fetch blog");
                 }
                 const data = await response.json();
                 setBlog(data);
-            } catch (err) {
-                setError(err.message);
-                console.error("Error fetching blog details:", err);
+            } catch (error) {
+                setError(error.message);
+            } finally {
+                setLoading(false);
             }
         };
 
-        if (id) {
-            fetchBlogDetails();
-        }
-    }, [id]);
+        fetchBlog();
+    }, [blogId]);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     if (error) {
-        return <div>Error loading blog details</div>;
+        return <div>Error: {error}</div>;
     }
 
     if (!blog) {
-        return <div>Loading...</div>;
+        return <div>Blog not found</div>;
     }
 
     return (
         <>
             <FadeInUp className="post-thumbnail">
-                <Image 
-                    src={blog.coverImage || Blog3Img} 
-                    alt={blog.title || "Blog image"}
-                    sizes="100vw"
-                    onError={(e) => {
-                        e.currentTarget.src = Blog3Img.src;
-                    }}
-                />
+                <Image src={Blog3Img} alt="Single blog image" sizes="100vw" />
             </FadeInUp>
             <div className="single-post-content-wrap">
-                <PostMeta 
-                    category={blog.category}
-                    date={new Date(blog.createdAt).toLocaleDateString("en-US", {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                    })}
-                    author={blog.author}
-                />
+                <PostMeta />
                 <div className="entry-content">
                     <h3>{blog.title}</h3>
-                    {/* Split content by paragraphs and render */}
-                    {blog.content.split('\n\n').map((paragraph, index) => {
-                        // Check if paragraph starts with #
-                        if (paragraph.startsWith('#')) {
-                            return <span key={index}>{paragraph}</span>;
-                        }
-                        // Check if paragraph is a quote (starts with >)
-                        else if (paragraph.startsWith('>')) {
-                            return (
-                                <blockquote key={index}>
-                                    {paragraph.substring(1).trim()}
-                                </blockquote>
-                            );
-                        }
-                        // Regular paragraph
-                        return <p key={index}>{paragraph}</p>;
-                    })}
-                    
+                    <p>{blog.content}</p>
+
+                    {blog.sections.map((section, index) => (
+                        <div key={index}>
+                            <span>{section.title}</span>
+                            <p>{section.content}</p>
+                        </div>
+                    ))}
+
+                    <blockquote>{blog.quote}</blockquote>
+
                     <PostTags tags={blog.tags} />
                     <CommentList comments={blog.comments} />
-                    <CommentForm blogId={blog._id} />
+                    <CommentForm blogId={blogId} />
                 </div>
             </div>
         </>

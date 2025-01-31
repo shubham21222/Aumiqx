@@ -11,6 +11,7 @@ const DashboardLayout = ({ children }) => {
         { name: "Testimonial", path: "/dashboard/Testimonail" },
         { name: "Teams Manage", path: "/dashboard/TeamsManager" },
         { name: "Blog manage", path: "/dashboard/BlogManager" },
+        { name: "Portfolio Manag", path: "/dashboard/PortfolioManager" },
 
     ];
 

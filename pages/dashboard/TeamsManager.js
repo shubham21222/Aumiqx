@@ -75,7 +75,7 @@ const TeamsManager = () => {
                         ? {
                               ...team,
                               skills: team.skills.map((s) => (s._id === editSkillId ? newSkill : s)),
-                          }
+                          } 
                         : team
                 )
             );

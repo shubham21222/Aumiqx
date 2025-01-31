@@ -12,6 +12,11 @@ import Categories from "@/components/blog/Categories";
 import RecentPosts from "@/components/blog/RecentPosts";
 import Search from "@/components/blog/Search";
 import Tags from "@/components/blog/Tags";
+import BreadCrumb from "@/components/common/Breadcrumb";
+import Header from "@/components/home-one/header";
+import Footer from "@/components/home-one/footer";
+import "../../../public/css/fontawesome.css";
+import "../../../public/css/mobile-nav.css";
 import "../../../public/css/app.css";
 import "../../../public/css/main.css";
 
@@ -66,9 +71,10 @@ function BlogDetails() {
                         onError={(e) => {
                             e.currentTarget.src = Blog3Img.src;
                         }}
+                        className="Single blog image"
                     />
                 </FadeInUp>
-                <div className="single-post-content-wrap">
+                <div className="single-post-content-wrap ">
                     <PostMeta 
                         category={blog.category}
                         date={new Date(blog.createdAt).toLocaleDateString("en-US", {
@@ -93,9 +99,9 @@ function BlogDetails() {
                             return <p key={index}>{paragraph}</p>;
                         })}
                         
-                        <PostTags tags={blog.tags} />
-                        <CommentList comments={blog.comments} />
-                        <CommentForm blogId={blog._id} />
+                        <PostTags  />
+                        <CommentList  />
+                        <CommentForm  />
                     </div>
                 </div>
             </>
@@ -103,7 +109,11 @@ function BlogDetails() {
     };
 
     return (
-        <div className="section post-details-page aximo-section-padding2">
+        <>
+        <div className="">
+        <Header />
+        <BreadCrumb title="Blog Details"  />
+        <div className="section post-details-page  aximo-section-padding2">
             <div className="container">
                 <div className="row">
                     <div className="col-lg-8">
@@ -120,6 +130,10 @@ function BlogDetails() {
                 </div>
             </div>
         </div>
+        <Footer />
+        </div>
+
+        </>
     );
 }
 
