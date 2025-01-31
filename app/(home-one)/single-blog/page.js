@@ -14,7 +14,7 @@ function SingleBlogPage() {
   return (
     <>
       <BreadCrumb title="Blog Details" />
-      <SingleBlog blogId={blogId} /> {/* Pass `blogId` as a prop */}
+      <SingleBlog blogId={blogId} />
     </>
   );
 }
